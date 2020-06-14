@@ -1,0 +1,104 @@
+<notes>
+    <div class="notes">
+
+        <div each={ note in state.notes }>
+            <p class="panel panel__inner bordered">{ note.text }</p>
+            <button class="button" type="button" onclick={ () => { handleDelete(note) } }>delete</button>
+        </div>
+
+        <form onsubmit={ handleSubmit }>
+            <label class="field__label">
+                <textarea class="field__text" name="text"></textarea>
+            </label>
+            <button class="button" type="submit">
+                send
+            </button>
+        </form>
+
+    </div>
+    <script>
+
+        import axios from 'axios'
+        import serialize from 'form-serialize'
+        import validate from 'validate.js'
+
+
+        /**
+         *  Shows all notes and add form to create new notes
+         *
+         *  @author Björn Hase, Tentakelfabrik
+         *  @license http://opensource.org/licenses/MIT The MIT License
+         *  @link https://github.com/tentakelfabrik/fastify-lowdb-riotjs-lessons-learned
+         *
+         */
+
+        export default {
+
+            state: {
+                notes: []
+            },
+
+            /**
+             *  getting all notes from api
+             *
+             *
+             */
+            getNotes() {
+                axios.get('/api/note').then((response) => {
+                    this.state.notes = response.data
+                    this.update()
+                }).catch(function(error) {
+                    console.log(error)
+                })
+            },
+
+            /**
+             *  before mount getting all notes
+             *
+             */
+            onBeforeMount() {
+                this.getNotes()
+            },
+
+            /**
+             *  handle submit
+             *
+             *  send note to api and getting all notes
+             *
+             */
+            handleSubmit(event) {
+
+                event.preventDefault()
+
+                // data from form
+                const data = serialize(event.target, {
+                    hash: true,
+                    empty: true
+                })
+
+                axios.post('/api/note', data).then((response) => {
+                    this.getNotes()
+                }).catch(function(error) {
+                    console.log(error)
+                })
+
+            },
+
+            /**
+             *  handle delete
+             *
+             *  delete single note 
+             *
+             */
+            handleDelete(note) {
+                axios.delete('/api/note/' + note._id).then((response) => {
+                    this.getNotes()
+                }).catch(function(error) {
+                    console.log(error)
+                })
+            }
+
+        }
+
+    </script>
+</notes>

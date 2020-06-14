@@ -1,0 +1,20 @@
+/**
+ *  components: header
+ *
+ *
+ *  @author Björn Hase, Tentakelfabrik
+ *  @license http://opensource.org/licenses/MIT The MIT License
+ *  @link https://github.com/tentakelfabrik/crispy-css
+ *
+ */
+
+@mixin component__button() {
+    .button {
+        &--transparent {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background: transparent;
+        }
+    }
+}
