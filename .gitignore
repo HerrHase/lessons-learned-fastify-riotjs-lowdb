@@ -4,3 +4,6 @@ build
 Thumbs.db
 .idea
 *.log
+
+storage/*
+!storage/.gitkeep
