@@ -2,6 +2,8 @@
 
 Simple Webapp, for try out [https://www.fastify.io/](https://www.fastify.io/).
 
+![Demo](demo.gif)
+
 ```
 npm install
 node index.js
