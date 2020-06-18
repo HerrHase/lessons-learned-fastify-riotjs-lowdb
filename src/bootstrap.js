@@ -9,10 +9,14 @@ fastify
     .register(require('./static/index.js'))
 
 // let it rain
-fastify.listen(3000, (error, address) => {
-    if (error) {
-        throw error
+const start = async () => {
+    try {
+        await fastify.listen(3000)
+        fastify.log.info(`server listening on ${fastify.server.address().port}`)
+    } catch (err) {
+        fastify.log.error(err)
+        process.exit(1)
     }
+}
 
-    fastify.log.info(`server listening on ${address}`)
-})
+start()

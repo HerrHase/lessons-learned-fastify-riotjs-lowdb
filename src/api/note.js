@@ -1,4 +1,6 @@
 const NoteRepository = require('../repositories/note.js')
+const schemas = require('../schemas/note.js')
+const escapeHtml = require('escape-html')
 
 /**
  *  adding routes for Note
@@ -39,8 +41,10 @@ module.exports = async function (fastify, opts) {
      *  @param  {object} reply
      *  @return {object}
      */
-    fastify.post('/note', function(request, reply) {
+    fastify.post('/note', schemas.postSchema, function(request, reply) {
 
+        // escaping string
+        request.body.text = escapeHtml(request.body.text)
         results = repository.add(request.body)
 
         reply
@@ -58,7 +62,7 @@ module.exports = async function (fastify, opts) {
      *  @param  {object} reply
      *  @return {object}
      */
-    fastify.delete('/note/:id', function(request, reply) {
+    fastify.delete('/note/:id', schemas.deleteSchema, function(request, reply) {
 
         repository.remove(request.params.id)
 
